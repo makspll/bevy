@@ -17,19 +17,19 @@ mod single_threaded_task_pool;
 #[cfg(target_arch = "wasm32")]
 pub use single_threaded_task_pool::{Scope, TaskPool, TaskPoolBuilder};
 
-mod usages;
-pub use usages::{AsyncComputeTaskPool, ComputeTaskPool, IoTaskPool};
-
 mod iter;
 pub use iter::ParallelIterator;
 
 #[allow(missing_docs)]
 pub mod prelude {
+    #[cfg(target_arch = "wasm32")]
+    pub use crate::single_threaded_task_pool::TaskPool;
+    #[cfg(not(target_arch = "wasm32"))]
+    pub use crate::task_pool::TaskPool;
     #[doc(hidden)]
     pub use crate::{
         iter::ParallelIterator,
         slice::{ParallelSlice, ParallelSliceMut},
-        usages::{AsyncComputeTaskPool, ComputeTaskPool, IoTaskPool},
     };
 }
 
