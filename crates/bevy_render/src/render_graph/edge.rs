@@ -1,5 +1,3 @@
-use bevy_reflect::{FromReflect, Reflect};
-
 use super::NodeId;
 
 /// An edge, which connects two [`Nodes`](super::Node) in
@@ -15,8 +13,7 @@ use super::NodeId;
 /// while the later connects an output slot of the `output_node`
 /// with an input slot of the `input_node` to pass additional data along.
 /// For more information see [`SlotType`](super::SlotType).
-#[derive(Clone, Debug, Eq, PartialEq, Reflect, FromReflect)]
-#[reflect(Debug,PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum Edge {
     /// An edge describing to ordering of both nodes (`output_node` before `input_node`)
     /// and connecting the output slot at the `output_index` of the output_node

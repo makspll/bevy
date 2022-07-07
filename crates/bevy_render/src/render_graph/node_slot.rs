@@ -1,5 +1,4 @@
 use bevy_ecs::entity::Entity;
-use bevy_reflect::{Reflect, prelude::ReflectDefault, FromReflect};
 use std::{borrow::Cow, fmt};
 
 use crate::render_resource::{Buffer, Sampler, TextureView};
@@ -63,8 +62,7 @@ impl From<Entity> for SlotValue {
 /// the render [`Nodes`](super::Node).
 ///
 /// This should not be confused with [`SlotValue`], which actually contains the passed data.
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Reflect, FromReflect)]
-#[reflect_value(Debug,PartialEq)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum SlotType {
     /// A GPU-accessible [`Buffer`].
     Buffer,
@@ -128,7 +126,7 @@ impl From<usize> for SlotLabel {
 }
 
 /// The internal representation of a slot, which specifies its [`SlotType`] and name.
-#[derive(Clone, Debug, Reflect, FromReflect)]
+#[derive(Clone, Debug)]
 pub struct SlotInfo {
     pub name: Cow<'static, str>,
     pub slot_type: SlotType,
@@ -145,8 +143,7 @@ impl SlotInfo {
 
 /// A collection of input or output [`SlotInfos`](SlotInfo) for
 /// a [`NodeState`](super::NodeState).
-#[derive(Default, Debug, Reflect, FromReflect)]
-#[reflect(Default, Debug)]
+#[derive(Default, Debug)]
 pub struct SlotInfos {
     slots: Vec<SlotInfo>,
 }

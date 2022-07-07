@@ -6,10 +6,8 @@ use crate::{
     renderer::RenderContext,
 };
 use bevy_ecs::world::World;
-use bevy_reflect::{Reflect, FromReflect, prelude::{ReflectSerialize,ReflectDeserialize}};
 use bevy_utils::Uuid;
 use downcast_rs::{impl_downcast, Downcast};
-use serde::{Serialize, Deserialize};
 use std::{borrow::Cow, fmt::Debug};
 use thiserror::Error;
 
@@ -17,8 +15,7 @@ use thiserror::Error;
 /// It automatically generates its own random uuid.
 ///
 /// This id is used to reference the node internally (edges, etc).
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Reflect, FromReflect)]
-#[reflect(Debug, PartialEq, Serialize, Deserialize, Hash)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub struct NodeId(Uuid);
 
 impl NodeId {
@@ -84,8 +81,7 @@ pub enum NodeRunError {
 }
 
 /// A collection of input and output [`Edges`](Edge) for a [`Node`].
-#[derive(Debug, Reflect, FromReflect)]
-#[reflect(Debug)]
+#[derive(Debug)]
 pub struct Edges {
     id: NodeId,
     input_edges: Vec<Edge>,
@@ -210,14 +206,11 @@ impl Edges {
 /// by the [`RenderGraph`](super::RenderGraph).
 ///
 /// The `input_slots` and `output_slots` are provided by the `node`.
-#[derive(Reflect, FromReflect)]
 pub struct NodeState {
     pub id: NodeId,
     pub name: Option<Cow<'static, str>>,
     /// The name of the type that implements [`Node`].
-    #[reflect(ignore)]
     pub type_name: &'static str,
-    #[reflect(ignore)]
     pub node: Box<dyn Node>,
     pub input_slots: SlotInfos,
     pub output_slots: SlotInfos,
