@@ -55,7 +55,8 @@ impl Default for Viewport {
 }
 
 /// Information about the current [`RenderTarget`].
-#[derive(Default, Debug, Clone)]
+#[derive(Default, Debug, Clone, Reflect)]
+#[reflect(Default, Debug)]
 pub struct RenderTargetInfo {
     /// The physical size of this render target (ignores scale factor).
     pub physical_size: UVec2,
