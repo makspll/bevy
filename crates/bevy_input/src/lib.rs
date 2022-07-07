@@ -68,6 +68,8 @@ impl Plugin for InputPlugin {
             .init_resource::<Input<GamepadButton>>()
             .init_resource::<Axis<GamepadAxis>>()
             .init_resource::<Axis<GamepadButton>>()
+            .register_type::<Gamepads>()
+            .register_type::<GamepadSettings>()
             .add_system_to_stage(
                 CoreStage::PreUpdate,
                 gamepad_event_system.label(InputSystem),

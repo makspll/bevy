@@ -76,7 +76,9 @@ impl Plugin for WindowPlugin {
             .add_event::<WindowBackendScaleFactorChanged>()
             .add_event::<FileDragAndDrop>()
             .add_event::<WindowMoved>()
-            .init_resource::<Windows>();
+            .init_resource::<Windows>()
+            .register_type::<WindowDescriptor>()
+            .register_type::<Windows>();
 
         if self.add_primary_window {
             let window_descriptor = app
