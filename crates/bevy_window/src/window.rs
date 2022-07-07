@@ -1,6 +1,7 @@
 use bevy_math::{DVec2, IVec2, Vec2};
 use bevy_reflect::{prelude::*, FromReflect};
 use bevy_utils::{tracing::warn, Uuid};
+use serde::{Serialize,Deserialize};
 use raw_window_handle::RawWindowHandle;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Reflect, FromReflect)]
@@ -22,7 +23,7 @@ pub struct WindowId(Uuid);
 /// The presentation mode may be declared in the [`WindowDescriptor`](WindowDescriptor::present_mode)
 /// or updated on a [`Window`](Window::set_present_mode).
 #[repr(C)]
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Reflect, FromReflect)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize, Reflect, FromReflect)]
 #[reflect_value(Debug,PartialEq,Hash)]
 #[doc(alias = "vsync")]
 pub enum PresentMode {
@@ -81,8 +82,8 @@ impl Default for WindowId {
 /// Please note that if the window is resizable, then when the window is
 /// maximized it may have a size outside of these limits. The functionality
 /// required to disable maximizing is not yet exposed by winit.
-#[derive(Debug, Clone, Copy, Reflect, FromReflect)]
-#[reflect(Debug)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, Reflect, FromReflect)]
+#[reflect(Debug, Serialize, Deserialize)]
 pub struct WindowResizeConstraints {
     pub min_width: f32,
     pub min_height: f32,
@@ -276,8 +277,8 @@ pub enum WindowCommand {
 }
 
 /// Defines the way a window is displayed.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Reflect, FromReflect)]
-#[reflect_value(Debug,PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize, FromReflect)]
+#[reflect_value(Debug, PartialEq, Serialize, Deserialize)]
 pub enum WindowMode {
     /// Creates a window that uses the given size.
     Windowed,
@@ -736,7 +737,8 @@ impl Window {
 }
 
 /// Defines where window should be placed at on creation.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Serialize,Deserialize, Reflect)]
+#[reflect_value(Debug, Serialize,Deserialize)]
 pub enum WindowPosition {
     /// Position will be set by the window manager
     Automatic,
@@ -751,7 +753,8 @@ pub enum WindowPosition {
 }
 
 /// Defines which monitor to use.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, Reflect)]
+#[reflect_value(Debug, Serialize,Deserialize)]
 pub enum MonitorSelection {
     /// Uses current monitor of the window.
     Current,
@@ -769,7 +772,8 @@ pub enum MonitorSelection {
 /// See [`examples/window/window_settings.rs`] for usage.
 ///
 /// [`examples/window/window_settings.rs`]: https://github.com/bevyengine/bevy/blob/latest/examples/window/window_settings.rs
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Reflect, Serialize, Deserialize)]
+#[reflect(Default, Debug, Serialize, Deserialize)]
 pub struct WindowDescriptor {
     /// The requested logical width of the window's client area.
     ///
