@@ -8,7 +8,7 @@ pub use camera_driver_node::*;
 pub use projection::*;
 
 use crate::{
-    primitives::Aabb,
+    primitives::*,
     render_graph::RenderGraph,
     view::{ComputedVisibility, Visibility, VisibleEntities},
     RenderApp, RenderStage,
@@ -28,6 +28,8 @@ impl Plugin for CameraPlugin {
             .register_type::<ScalingMode>()
             .register_type::<DepthCalculation>()
             .register_type::<Aabb>()
+            .register_type::<Sphere>()
+            .register_type::<Plane>()
             .register_type::<CameraRenderGraph>()
             .add_plugin(CameraProjectionPlugin::<Projection>::default())
             .add_plugin(CameraProjectionPlugin::<OrthographicProjection>::default())

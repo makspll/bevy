@@ -1,6 +1,6 @@
 use bevy_ecs::{component::Component, reflect::ReflectComponent};
 use bevy_math::{Mat4, Vec3, Vec3A, Vec4, Vec4Swizzles};
-use bevy_reflect::Reflect;
+use bevy_reflect::{Reflect,prelude::ReflectDefault};
 
 /// An Axis-Aligned Bounding Box
 #[derive(Component, Clone, Debug, Default, Reflect)]
@@ -58,7 +58,8 @@ impl From<Sphere> for Aabb {
     }
 }
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, Reflect)]
+#[reflect(Debug, Default)]
 pub struct Sphere {
     pub center: Vec3A,
     pub radius: f32,
@@ -84,7 +85,8 @@ impl Sphere {
 /// Any point p is in the plane if n.p + d = 0
 /// For planes defining half-spaces such as for frusta, if n.p + d > 0 then p is on
 /// the positive side (inside) of the plane.
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Clone, Copy, Debug, Default, Reflect)]
+#[reflect(Debug, Default)]
 pub struct Plane {
     normal_d: Vec4,
 }

@@ -17,7 +17,7 @@ use bevy_ecs::{
     system::{Commands, ParamSet, Query, Res},
 };
 use bevy_math::{Mat4, UVec2, Vec2, Vec3};
-use bevy_reflect::prelude::*;
+use bevy_reflect::{prelude::*, FromReflect};
 use bevy_transform::components::GlobalTransform;
 use bevy_utils::HashSet;
 use bevy_window::{WindowCreated, WindowId, WindowResized, Windows};
@@ -55,8 +55,8 @@ impl Default for Viewport {
 }
 
 /// Information about the current [`RenderTarget`].
-#[derive(Default, Debug, Clone, Reflect)]
-#[reflect(Default, Debug)]
+#[derive(Default, Debug, Clone, Reflect, Serialize, Deserialize)]
+#[reflect(Default, Debug, Serialize, Deserialize)]
 pub struct RenderTargetInfo {
     /// The physical size of this render target (ignores scale factor).
     pub physical_size: UVec2,
@@ -65,7 +65,8 @@ pub struct RenderTargetInfo {
 }
 
 /// Holds internally computed [`Camera`] values.
-#[derive(Default, Debug, Clone)]
+#[derive(Default, Debug, Clone, Reflect)]
+#[reflect(Default, Debug)]
 pub struct ComputedCameraValues {
     projection_matrix: Mat4,
     target_info: Option<RenderTargetInfo>,
@@ -84,10 +85,8 @@ pub struct Camera {
     /// The method used to calculate this camera's depth. This will be used for projections and visibility.
     pub depth_calculation: DepthCalculation,
     /// Computed values for this camera, such as the projection matrix and the render target size.
-    #[reflect(ignore)]
     pub computed: ComputedCameraValues,
     /// The "target" that this camera will render to.
-    #[reflect(ignore)]
     pub target: RenderTarget,
 }
 
@@ -243,6 +242,7 @@ impl CameraRenderGraph {
 /// The "target" that a [`Camera`] will render to. For example, this could be a [`Window`](bevy_window::Window)
 /// swapchain or an [`Image`].
 #[derive(Debug, Clone, Reflect, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[reflect(Debug, Default, PartialEq, Hash)]
 pub enum RenderTarget {
     /// Window to which the camera's view is rendered.
     Window(WindowId),
