@@ -85,8 +85,10 @@ pub struct Camera {
     /// The method used to calculate this camera's depth. This will be used for projections and visibility.
     pub depth_calculation: DepthCalculation,
     /// Computed values for this camera, such as the projection matrix and the render target size.
+    #[reflect(ignore)]
     pub computed: ComputedCameraValues,
     /// The "target" that this camera will render to.
+    #[reflect(ignore)]
     pub target: RenderTarget,
 }
 
