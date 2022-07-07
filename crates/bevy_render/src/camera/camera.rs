@@ -55,8 +55,7 @@ impl Default for Viewport {
 }
 
 /// Information about the current [`RenderTarget`].
-#[derive(Default, Debug, Clone, Reflect, Serialize, Deserialize)]
-#[reflect(Default, Debug, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone)]
 pub struct RenderTargetInfo {
     /// The physical size of this render target (ignores scale factor).
     pub physical_size: UVec2,
@@ -65,8 +64,7 @@ pub struct RenderTargetInfo {
 }
 
 /// Holds internally computed [`Camera`] values.
-#[derive(Default, Debug, Clone, Reflect)]
-#[reflect(Default, Debug)]
+#[derive(Default, Debug, Clone)]
 pub struct ComputedCameraValues {
     projection_matrix: Mat4,
     target_info: Option<RenderTargetInfo>,
