@@ -21,7 +21,10 @@ impl Gamepad {
 /// Container of unique connected [`Gamepad`]s
 ///
 /// [`Gamepad`]s are registered and deregistered in [`gamepad_connection_system`]
+#[derive(Reflect)]
+#[reflect(Resource)]
 pub struct Gamepads {
+    #[reflect(ignore)]
     gamepads: HashSet<Gamepad>,
 }
 
