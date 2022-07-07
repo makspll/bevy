@@ -18,12 +18,14 @@ mod impls {
     #[cfg(feature = "smallvec")]
     mod smallvec;
     mod std;
+    mod utils;
 
     #[cfg(feature = "glam")]
     pub use self::glam::*;
     #[cfg(feature = "smallvec")]
     pub use self::smallvec::*;
     pub use self::std::*;
+    pub use self::utils::*;
 }
 
 pub mod serde;
