@@ -1,9 +1,12 @@
+use bevy_reflect::{Reflect, FromReflect};
+
 /// The icon to display for a window's cursor.
 ///
 /// Examples of all of these cursors can be found [here](https://www.w3schools.com/cssref/playit.asp?filename=playcss_cursor).
 /// This `enum` is simply a copy of a similar `enum` found in [`winit`](https://docs.rs/winit/latest/winit/window/enum.CursorIcon.html).
 /// `winit`, in turn, mostly copied cursor types avilable in the browser.
-#[derive(Debug, Hash, PartialEq, Eq, Clone, Copy)]
+#[derive(Debug, Hash, PartialEq, Eq, Clone, Copy, Reflect, FromReflect)]
+#[reflect_value(Debug,Hash,PartialEq)]
 pub enum CursorIcon {
     /// The platform-dependent default cursor.
     Default,

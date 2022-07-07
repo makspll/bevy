@@ -1,8 +1,11 @@
 use super::{Window, WindowId};
 use bevy_utils::HashMap;
+use bevy_reflect::prelude::*;
+use bevy_ecs::reflect::ReflectResource;
 
 /// A collection of [`Window`]s with unique [`WindowId`]s.
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Reflect)]
+#[reflect(Resource)]
 pub struct Windows {
     windows: HashMap<WindowId, Window>,
 }

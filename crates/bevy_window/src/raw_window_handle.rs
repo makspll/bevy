@@ -1,3 +1,4 @@
+use bevy_reflect::{Reflect, FromReflect};
 use raw_window_handle::{HasRawWindowHandle, RawWindowHandle};
 
 /// A wrapper over [`RawWindowHandle`] that allows us to safely pass it across threads.
@@ -5,7 +6,8 @@ use raw_window_handle::{HasRawWindowHandle, RawWindowHandle};
 /// Depending on the platform, the underlying pointer-containing handle cannot be used on all threads,
 /// and so we cannot simply make it (or any type that has a safe operation to get a [`RawWindowHandle`])
 /// thread-safe.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Reflect, FromReflect)]
+#[reflect_value(Debug)]
 pub struct RawWindowHandleWrapper(RawWindowHandle);
 
 impl RawWindowHandleWrapper {

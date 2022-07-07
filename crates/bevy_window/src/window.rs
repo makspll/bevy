@@ -1,8 +1,10 @@
 use bevy_math::{DVec2, IVec2, Vec2};
+use bevy_reflect::{prelude::*, FromReflect};
 use bevy_utils::{tracing::warn, Uuid};
 use raw_window_handle::RawWindowHandle;
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Reflect, FromReflect)]
+#[reflect(Debug, Default, PartialEq, Hash)]
 /// A unique ID for a [`Window`].
 pub struct WindowId(Uuid);
 
@@ -20,7 +22,8 @@ pub struct WindowId(Uuid);
 /// The presentation mode may be declared in the [`WindowDescriptor`](WindowDescriptor::present_mode)
 /// or updated on a [`Window`](Window::set_present_mode).
 #[repr(C)]
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Reflect, FromReflect)]
+#[reflect_value(Debug,PartialEq,Hash)]
 #[doc(alias = "vsync")]
 pub enum PresentMode {
     /// The presentation engine does **not** wait for a vertical blanking period and
@@ -78,7 +81,8 @@ impl Default for WindowId {
 /// Please note that if the window is resizable, then when the window is
 /// maximized it may have a size outside of these limits. The functionality
 /// required to disable maximizing is not yet exposed by winit.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Reflect, FromReflect)]
+#[reflect(Debug)]
 pub struct WindowResizeConstraints {
     pub min_width: f32,
     pub min_height: f32,
@@ -167,7 +171,8 @@ impl WindowResizeConstraints {
 ///     }
 /// }
 /// ```
-#[derive(Debug)]
+#[derive(Debug, Reflect, FromReflect)]
+#[reflect(Debug)]
 pub struct Window {
     id: WindowId,
     requested_width: f32,
@@ -193,11 +198,13 @@ pub struct Window {
     fit_canvas_to_parent: bool,
     command_queue: Vec<WindowCommand>,
 }
+
 /// A command to be sent to a window.
 ///
 /// Bevy apps don't interact with this `enum` directly. Instead, they should use the methods on [`Window`].
 /// This `enum` is meant for authors of windowing plugins. See the documentation on [`crate::WindowPlugin`] for more information.
-#[derive(Debug)]
+#[derive(Clone, Debug, Reflect, FromReflect)]
+#[reflect_value(Debug)]
 pub enum WindowCommand {
     /// Set the window's [`WindowMode`].
     SetWindowMode {
@@ -269,7 +276,8 @@ pub enum WindowCommand {
 }
 
 /// Defines the way a window is displayed.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Reflect, FromReflect)]
+#[reflect_value(Debug,PartialEq)]
 pub enum WindowMode {
     /// Creates a window that uses the given size.
     Windowed,
