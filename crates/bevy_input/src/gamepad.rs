@@ -1,9 +1,11 @@
 use crate::{Axis, Input};
 use bevy_ecs::event::{EventReader, EventWriter};
-use bevy_ecs::system::{Res, ResMut};
+use bevy_ecs::{system::{Res, ResMut}, prelude::ReflectResource};
+use bevy_reflect::{Reflect, FromReflect};
 use bevy_utils::{tracing::info, HashMap, HashSet};
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Reflect, FromReflect)]
+#[reflect(Debug, PartialEq, Hash)]
 #[cfg_attr(feature = "serialize", derive(serde::Serialize, serde::Deserialize))]
 pub struct Gamepad {
     pub id: usize,
@@ -86,7 +88,8 @@ impl GamepadEventRaw {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Reflect, FromReflect)]
+#[reflect(Debug, PartialEq, Hash)]
 #[cfg_attr(feature = "serialize", derive(serde::Serialize, serde::Deserialize))]
 pub enum GamepadButtonType {
     South,
@@ -110,7 +113,8 @@ pub enum GamepadButtonType {
     DPadRight,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Reflect, FromReflect)]
+#[reflect(Debug, PartialEq, Hash)]
 #[cfg_attr(feature = "serialize", derive(serde::Serialize, serde::Deserialize))]
 pub struct GamepadButton {
     pub gamepad: Gamepad,
@@ -126,7 +130,8 @@ impl GamepadButton {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Reflect, FromReflect)]
+#[reflect(Debug, PartialEq, Hash)]
 #[cfg_attr(feature = "serialize", derive(serde::Serialize, serde::Deserialize))]
 pub enum GamepadAxisType {
     LeftStickX,
@@ -139,7 +144,8 @@ pub enum GamepadAxisType {
     DPadY,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Reflect, FromReflect)]
+#[reflect(Debug, PartialEq, Hash)]
 #[cfg_attr(feature = "serialize", derive(serde::Serialize, serde::Deserialize))]
 pub struct GamepadAxis {
     pub gamepad: Gamepad,
@@ -152,7 +158,8 @@ impl GamepadAxis {
     }
 }
 
-#[derive(Default, Debug)]
+#[derive(Default, Debug, Reflect)]
+#[reflect(Resource)]
 pub struct GamepadSettings {
     pub default_button_settings: ButtonSettings,
     pub default_axis_settings: AxisSettings,
@@ -182,7 +189,7 @@ impl GamepadSettings {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Reflect, FromReflect)]
 pub struct ButtonSettings {
     pub press: f32,
     pub release: f32,
@@ -215,7 +222,7 @@ impl ButtonSettings {
 /// Otherwise, values will not be rounded.
 ///
 /// The valid range is from -1.0 to 1.0, inclusive.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Reflect, FromReflect)]
 pub struct AxisSettings {
     pub positive_high: f32,
     pub positive_low: f32,
@@ -259,7 +266,7 @@ impl AxisSettings {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Reflect, FromReflect)]
 pub struct ButtonAxisSettings {
     pub high: f32,
     pub low: f32,
